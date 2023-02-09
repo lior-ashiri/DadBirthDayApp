@@ -7,7 +7,7 @@ const Tile = (props)=>{
     }, [props.reset]);
     return (
         <Pressable onPress={()=>{ if(props.clickable){setPressed(!pressed)}; props.onPress(props.myID)}} style={styles.Tile}>
-            <Text style={[{ color: props.clickable? ( pressed ? 'red' : 'black') :(props.isEndGame? '#006400': 'gold')}, styles.Text]}>
+            <Text style={[{ color: props.clickable? ( pressed ? 'red' : 'black') :(props.isEndGame? 'gold':'#006400')}, styles.Text]}>
       {props.letter}
     </Text>
     </Pressable>
