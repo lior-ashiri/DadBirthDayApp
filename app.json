@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "DadBirthDayApp",
-    "slug": "DadBirthDayApp",
+    "slug": "happybirthdaydad",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cb92c4ee-d499-4846-b102-8062631eec00"
+      }
+    },
+    "owner": "liora_daterly"
   }
 }
