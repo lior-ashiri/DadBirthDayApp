@@ -1,18 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 const Tile = (props)=>{
     const [pressed, setPressed] = useState(false)
+    useEffect(() => {
+        setPressed(false)
+    }, [props.reset]);
     return (
         <Pressable onPress={()=>{ if(props.clickable){setPressed(!pressed)}; props.onPress(props.myID)}} style={styles.Tile}>
             <Text style={[{ color: props.clickable? ( pressed ? 'red' : 'black') :(props.isEndGame? '#006400': 'gold')}, styles.Text]}>
       {props.letter}
     </Text>
     </Pressable>
-//   style={({ pressed }) => [{ backgroundColor: pressed ? 'black' : 'white' }, styles.Tile ]}>
-//   {({ pressed }) => (
-    
-//   )}
-// </Pressable>
+
     )
 }
 const styles = StyleSheet.create({

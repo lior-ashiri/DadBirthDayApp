@@ -1,21 +1,18 @@
 import React, {useRef, useEffect, useState} from 'react';
-import {Animated, Text, View} from 'react-native';
+import {Animated, Text, View, Pressable} from 'react-native';
 
 const FadeInView = props => {
-//   const [toStart, setToStart] = useState(false);
-//   const toStart = useRef(props.toStart)
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
-// function startMy(){
-//     setToStart(true);
-// }
+    var fadeAnim =new Animated.Value(0);
+    useEffect(()=>{
+        fadeAnim.current=new Animated.Value(0);
+    },[props.reset]);
 
-
-        // setToStart(true)
         useEffect(() => {
+            
             if(props.toStart===true){
             Animated.timing(fadeAnim, {
                 toValue: 1,
-                duration: 5000,
+                duration: 2000,
                 useNativeDriver: true,
             }).start();
         }
@@ -25,35 +22,18 @@ const FadeInView = props => {
 
 
   return (
-    props.toStart && <Animated.View // Special animatable View
+    props.toStart && 
+        <Animated.View // Special animatable View
       style={{
         ...props.style,
         opacity: fadeAnim, // Bind opacity to animated value
       }}>
+        <Pressable onPress={props.onPress}>
+
       {props.children}
+        </Pressable>
     </Animated.View>
+    
   );
 };
 export default FadeInView;
-// You can then use your `FadeInView` in place of a `View` in your components:
-// export default () => {
-//   return (
-//     <View
-//       style={{
-//         flex: 1,
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//       }}>
-//       <FadeInView
-//         style={{
-//           width: 250,
-//           height: 50,
-//           backgroundColor: 'powderblue',
-//         }}>
-//         <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>
-//           Fading in
-//         </Text>
-//       </FadeInView>
-//     </View>
-//   );
-// };

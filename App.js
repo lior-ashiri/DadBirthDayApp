@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image,ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Image,ImageBackground, NativeModules, Touchable } from 'react-native';
 import Tile from './src/Tile';
 import FadeInView from './src/FadeInVIiew';
 
+
+const locale = NativeModules.I18nManager.localeIdentifier
 export default function App() {
   const [clickable, setClickable] = useState(true)
   const [list, setList] = useState([])
+  const [resetCount, setResetCount] = useState(0)
   const didWin = function(myID){
     var test;
     if (list.includes(myID)){
@@ -22,12 +25,17 @@ export default function App() {
       setClickable(false)
     }
   }
-  const DataToWin = (Locale.getDefault().getLanguage() =='he')?
+  const reset = ()=>{
+    setClickable(true);
+    setList([]);
+    setResetCount(resetCount+1);
+  }
+  const DataToWin = (locale =='he' || locale=='iw_IL')?
   [
     6,13,20,19,18,17,16,25,30,31,32,33,34,38,39,40,45,44,43,42
   ]:
   [
-    0,7,14,15,16,17,18,23,28,29,30,31,32,38,39,40,45,46,47,48
+    0,7,14,15,16,17,18,23,28,29,30,31,32,36,37,38,45,46,47,48
   ]
   return (
       <ImageBackground source={require('./images/decoration-cropped.png')} style={styles.container}>
@@ -45,7 +53,7 @@ export default function App() {
           <View style={styles.row}>
           {row.map((Data)=>{
             return(
-              <Tile letter={Data[0]} onPress={didWin} myID={Data[1]} clickable={clickable} isEndGame={DataToWin.includes(Data[1])} />
+              <Tile letter={Data[0]} onPress={didWin} myID={Data[1]} clickable={clickable} isEndGame={DataToWin.includes(Data[1])} reset={resetCount} />
               )
             })}
           </View>
@@ -54,8 +62,8 @@ export default function App() {
       })}
       <StatusBar style="auto" />
  
-          <FadeInView toStart={!clickable} style={styles.FadeInVIEW}>
-          <Image source={require('./images/Heart.png')} style={styles.image} resizeImage='cover'/>
+          <FadeInView toStart={!clickable} style={styles.FadeInVIEW} onPress={reset} reset={resetCount}>
+              <Image source={require('./images/Heart.png')} style={styles.image} resizeImage='cover' />
           </FadeInView>
       
       
@@ -63,14 +71,14 @@ export default function App() {
   );
 }
 
-const AllRowsLetters = (Locale.getDefault().getLanguage() =='he')?
+const AllRowsLetters = (locale =='he'|| locale=='iw_IL')?
 [  
   [['א',0],['ב',1],['ג',2],['ד',3],['ה',4],['ו',5],['ש',6]],
   [['ז',7],['ח',8],['ט',9],['י',10],['כ',11],['ל',12],['ח',13]],
   [['מ',14],['נ',15],['א',16],['י',17],['ג',18],['ו',19],['ר',20]],
   [['ס',21],['ע',22],['פ',23],['צ',24],['י',25],['ק',26],['ר',27]],
   [['ש',28],['ת',29],['ל',30],['י',31],['א',32],['ו',33],['ר',34]],
-  [['א',35],['ב',36],['ג',38],['ע',38],['נ',39],['ת',40],['ד',41]],
+  [['א',35],['ב',36],['ג',37],['ע',38],['נ',39],['ת',40],['ד',41]],
   [['י',42],['ו',43],['ב',44],['ל',45],['ה',46],['ו',47],['ז',48]]
 ]:
 [  
@@ -79,7 +87,7 @@ const AllRowsLetters = (Locale.getDefault().getLanguage() =='he')?
   [['ר',14],['ו',15],['ג',16],['י',17],['א',18],['נ',19],['מ',20]],
   [['ר',21],['ק',22],['י',23],['צ',24],['פ',25],['ע',26],['ס',27]],
   [['ר',28],['ו',29],['א',30],['י',31],['ל',32],['ת',33],['ש',34]],
-  [['ד',35],['ת',36],['נ',38],['ע',38],['ג',39],['ב',40],['א',41]],
+  [['ד',35],['ת',36],['נ',37],['ע',38],['ג',39],['ב',40],['א',41]],
   [['ז',42],['ו',43],['ה',44],['ל',45],['ב',46],['ו',47],['י',48]]
 ]
 
